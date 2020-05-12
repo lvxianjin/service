@@ -5,14 +5,19 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.iscas.service.result.service.ResultService;
 import com.iscas.service.tool.HbaseClient;
+import org.apache.hadoop.hbase.client.ResultScanner;
+import org.apache.hadoop.hbase.client.Scan;
 import org.apache.hadoop.mapreduce.ID;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 public class ResultServiceImpl implements ResultService {
     HbaseClient hb=new HbaseClient();
-    long totalMilliSeconds = System.currentTimeMillis();
+    Date date=new Date();
+    String totalMilliSeconds = String.valueOf(date.getTime());
     @Override
     public boolean saveWeakInfo(String value) {
         /**
@@ -137,4 +142,48 @@ public class ResultServiceImpl implements ResultService {
         }
         return false;
     }
+
+    /**
+     * 1.满足条件的rowkey
+     * */
+
+    @Override
+    public List<Map<String, String>> getWeakInfo(String totalMilliSeconds) {
+        //保存rowkey
+        /**
+         * 1.根据参数筛选出符合条件的Rowkey，用list保存
+         * 2.遍历list，将结果保存到list中
+         * */
+
+
+
+        return null;
+    }
+
+    @Override
+    public List<Map<String, String>> getPolicyInfo(String value) {
+        return null;
+    }
+
+    @Override
+    public Map<String, String> getSysModelInfo(String value) {
+        return null;
+    }
+
+    @Override
+    public List<Map<String, String>> getModalInfo(String value) {
+        return null;
+    }
+
+    @Override
+    public Map<String, String> getCctInfo(String value) {
+        return null;
+    }
+
+    @Override
+    public Map<String, String> getErrorRateInfo(String value) {
+        return null;
+    }
+
+
 }
