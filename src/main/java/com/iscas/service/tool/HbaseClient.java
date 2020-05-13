@@ -5,6 +5,7 @@ import org.apache.hadoop.hbase.*;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.filter.CompareFilter;
 import org.apache.hadoop.hbase.filter.CompareFilter.CompareOp;
+import org.apache.hadoop.hbase.filter.PrefixFilter;
 import org.apache.hadoop.hbase.filter.RegexStringComparator;
 import org.apache.hadoop.hbase.util.Bytes;
 
@@ -111,24 +112,19 @@ public class HbaseClient implements Serializable {
     }
 
     /**
+     * 前缀过滤器
      * 根据参数筛选出符合条件的Rowkey
      * */
-    public  List<Map<String, String>> getRow(String totalMilliSeconds)throws IOException{
-        Table table=connection.getTable(TableName.valueOf(totalMilliSeconds));
-        ArrayList<Map<String,String>> list= new ArrayList<Map<String,String>>();
-        ArrayList<Map<String,String>> getlist=new ArrayList<Map<String,String>>();
-        Scan scan=new Scan();
-        Filter filter= new RowFilter(CompareOp.EQUAL, new RegexStringComparator(""));
+    public List<String> prefixFilter(String tableName,String totalMilliSeconds) throws Exception {
+        List<String> info = new ArrayList<>();
+        Table table = connection.getTable(TableName.valueOf(tableName));
+        Scan scan = new Scan();
+        PrefixFilter filter = new PrefixFilter(totalMilliSeconds.getBytes());
         scan.setFilter(filter);
-        ResultScanner scanner;
-        try {
-            scanner=table.getScanner(scan);
-            for (Result res:scanner){
-                System.out.println(res);
-            }
-        }catch (IOException e){
-            e.printStackTrace();
+        ResultScanner scanner = table.getScanner(scan);
+        for (Result r : scanner) {
+            info.add(new String(r.getRow()));
         }
-return null;
-}
+        return info;
+    }
 }
