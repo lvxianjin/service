@@ -75,7 +75,9 @@ public interface ResultService {
  /**
   *
   * 功能描述: 读取薄弱节点信息
-  *
+  * 1. 创建HbaseClient对象
+  * 2. 调用前缀过滤器，传入两个参数，（1）表名，（2）需要查询的时间，得到满足条件的RowKey
+  * 3. 遍历满足条件的RowKey，获取相应的值
 
   */
  List<Map<String,String>> getWeakInfo(String totalMilliSeconds);
@@ -123,7 +125,7 @@ public interface ResultService {
   *
   * 功能描述:读取预想故障下暂态稳定分析
   *
-  * @param value json串，里面包含 ErrorName 故障名称，Rate 稳定概率
+  * @param totalMilliSeconds json串，里面包含 ErrorName 故障名称，Rate 稳定概率
   * @return:
   * @auther: lvxianjin
   * @date: 2020/5/6 9:20
